@@ -12,7 +12,7 @@ This repository contains an **end-to-end MLOps pipeline** for predicting hospita
 
 ## Quick Start
 ```bash
-git clone https://github.com/yourusername/mlops-hospital-readmissions.git
+git clone https://github.com/veekay98/mlops-hospital-readmissions.git
 cd mlops-hospital-readmissions
 pip install -r requirements.txt
 python train_model.py
