@@ -24,6 +24,7 @@ jobs:
 
       - name: Run Unit Tests
         run: |
+          pip install requests
           python -m unittest discover tests  # Run all test cases in `tests/` folder
 
       - name: Build Docker Image
