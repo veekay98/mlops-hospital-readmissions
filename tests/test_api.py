@@ -4,7 +4,7 @@ import requests
 class TestFastAPI(unittest.TestCase):
 
 
-    def test_prediction_endpoint():
+    def test_prediction_endpoint(self):
         url = "http://127.0.0.1:7500/predict"
         payload = {
                       "age": 45,
