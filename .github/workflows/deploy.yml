@@ -20,7 +20,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install fastapi uvicorn joblib pandas scikit-learn
+          pip install fastapi uvicorn joblib pandas scikit-learn requests unittest
           pip install prometheus_client  # For monitoring
 
       - name: Run Unit Tests
