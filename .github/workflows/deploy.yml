@@ -3,15 +3,15 @@ name: Deploy FastAPI Model
 on:
   push:
     branches:
-      - main  # Runs only when pushing to the main branch
+      - main
 
 jobs:
   build_and_deploy:
-    runs-on: ubuntu-latest  # Runs on a GitHub-hosted Ubuntu runner
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2  # Clones the repository
+        uses: actions/checkout@v2
 
       - name: Set up Python
         uses: actions/setup-python@v3
@@ -19,25 +19,26 @@ jobs:
           python-version: "3.11"
 
       - name: Install dependencies
-        run: |
-          pip install -r requirements.txt
+        run: pip install -r requirements.txt
 
       - name: Build Docker Image
-        run: |
-          docker build -t fastapi-app .
+        run: docker build -t fastapi-app .
 
-      - name: Run Container Locally (Optional)
+      - name: Run Container Locally
         run: |
           docker run -d --name fastapi-container -p 7500:7500 fastapi-app
+          sleep 10  # Ensure server has time to start
+
+      - name: Wait for FastAPI to Start
+        run: |
+          echo "Waiting for FastAPI to become available..."
+          for i in {1..10}; do
+            curl --silent --fail http://127.0.0.1:7500/docs && break
+            echo "FastAPI not ready yet... retrying in 2s"
+            sleep 2
+          done
 
       - name: Run Unit Tests
         run: |
           pip install requests
-          python -m unittest discover tests  # Run all test cases in `tests/` folder
-
-      # - name: Deploy to Cloud (if using AWS/Render/etc.)
-      #   env:
-      #     DEPLOY_URL: ${{ secrets.REMOTE_SERVER }}
-      #   run: |
-      #     echo "Deploying to $DEPLOY_URL"
-      #     # Add deployment commands (e.g., AWS, Docker Hub, or Render)
+          python -m unittest discover tests  # Run all tests in `tests/`
