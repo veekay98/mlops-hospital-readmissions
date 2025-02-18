@@ -1,0 +1,43 @@
+name: Deploy FastAPI Model
+
+on:
+  push:
+    branches:
+      - main  # Runs only when pushing to the main branch
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest  # Runs on a GitHub-hosted Ubuntu runner
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2  # Clones the repository
+
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install fastapi uvicorn joblib pandas scikit-learn
+          pip install prometheus_client  # For monitoring
+
+      - name: Run Unit Tests
+        run: |
+          python -m unittest discover tests  # Run all test cases in `tests/` folder
+
+      - name: Build Docker Image
+        run: |
+          docker build -t fastapi-app .
+
+      - name: Run Container Locally (Optional)
+        run: |
+          docker run -d --name fastapi-container -p 7500:7500 fastapi-app
+
+      # - name: Deploy to Cloud (if using AWS/Render/etc.)
+      #   env:
+      #     DEPLOY_URL: ${{ secrets.REMOTE_SERVER }}
+      #   run: |
+      #     echo "Deploying to $DEPLOY_URL"
+      #     # Add deployment commands (e.g., AWS, Docker Hub, or Render)

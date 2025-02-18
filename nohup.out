@@ -1,0 +1,10 @@
+✅ Starting Prometheus monitoring on port 7600...
+🔄 Updated request count metric
+🔄 Updated request count metric
+Traceback (most recent call last):
+  File "/Users/vigneshkrishnan/mlops-hospital-readmissions/monitoring.py", line 16, in <module>
+    monitor()
+  File "/Users/vigneshkrishnan/mlops-hospital-readmissions/monitoring.py", line 13, in monitor
+    time.sleep(5)  # Sleep to simulate updates every 5 seconds
+    ^^^^^^^^^^^^^
+KeyboardInterrupt
