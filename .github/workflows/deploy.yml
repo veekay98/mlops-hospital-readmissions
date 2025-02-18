@@ -42,3 +42,9 @@ jobs:
         run: |
           pip install requests
           python -m unittest discover tests  # Run all tests in `tests/`
+
+      - name: Print FastAPI Logs if Tests Fail
+        if: failure()
+        run: |
+          echo "FastAPI logs:"
+          docker logs fastapi-container
