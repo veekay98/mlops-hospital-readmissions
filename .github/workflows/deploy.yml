@@ -22,11 +22,6 @@ jobs:
         run: |
           pip install -r requirements.txt
 
-      - name: Run Unit Tests
-        run: |
-          pip install requests
-          python -m unittest discover tests  # Run all test cases in `tests/` folder
-
       - name: Build Docker Image
         run: |
           docker build -t fastapi-app .
@@ -34,6 +29,11 @@ jobs:
       - name: Run Container Locally (Optional)
         run: |
           docker run -d --name fastapi-container -p 7500:7500 fastapi-app
+
+      - name: Run Unit Tests
+        run: |
+          pip install requests
+          python -m unittest discover tests  # Run all test cases in `tests/` folder
 
       # - name: Deploy to Cloud (if using AWS/Render/etc.)
       #   env:
